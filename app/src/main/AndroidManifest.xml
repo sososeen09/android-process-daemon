@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sososeen09.process.daemon.sample">
+
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.NormalService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":normal" />
+        <service
+            android:name=".service.GrayService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":gray" />
+        <service
+            android:name=".service.GrayService$InnerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":gray" />
+        <service
+            android:name=".service.WhiteService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":white" />
+        <service android:name=".service.WakeReceiver$WakeService" />
+        <service android:name=".service.WakeReceiver$WakeInnerService" />
+
+        <receiver android:name=".service.WakeReceiver">
+            <intent-filter>
+                <action android:name="com.sososeen09.wake" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".keepliveactivity.KeepLiveActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:finishOnTaskLaunch="false"
+            android:taskAffinity="com.sososeen09.daemon.keep.live"
+            android:theme="@style/KeepLiveTheme" />
+
+        <service
+            android:name=".keepliveactivity.KeepLiveService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ServiceKeepActivity" />
+
+        <!-- 账户服务 -->
+        <service
+            android:name=".account.AuthenticationService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/accountauthenticator" />
+        </service>
+        <service
+            android:name=".account.SyncService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
+        </service>
+
+        <provider
+            android:name=".account.SyncProvicer"
+            android:authorities="com.sososeen09.process.daemon.provider" />
+
+        <service
+            android:name=".jobschedule.MyJobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".doubleprocess.RemoteService"
+            android:process=":remote" />
+        <service
+            android:name=".doubleprocess.RemoteService$InnerService"
+            android:process=":remote" />
+        <service android:name=".doubleprocess.LocalService" />
+        <service android:name=".doubleprocess.LocalService$InnerService" />
+    </application>
+
+</manifest>

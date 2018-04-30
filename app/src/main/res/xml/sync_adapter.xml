@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accountType="com.sososeen09.process.daemon.account"
+    android:contentAuthority="com.sososeen09.process.daemon.provider"
+    android:allowParallelSyncs="false"
+    android:isAlwaysSyncable="true"
+    android:userVisible="false"/>
+
+<!--contentAuthority 系统在进行账户同步的时候会查找 此auth的ContentProvider-->
+<!-- allowParallelSyncs 允许多个同步-->
